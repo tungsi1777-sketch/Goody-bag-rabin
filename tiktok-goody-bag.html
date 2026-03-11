@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Goody Bag</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f5d4;
+    --cyan-dim: #00c9ad;
+    --bg: #050d12;
+    --card: #0d1f2d;
+    --card2: #0a1a26;
+    --border: #1a3a4a;
+    --text: #c8e6f0;
+    --muted: #5a8a99;
+    --red: #ff4d6d;
+    --green: #00f5a0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 20%, #00f5d415 0%, transparent 50%),
+                      radial-gradient(ellipse at 80% 80%, #00f5d408 0%, transparent 50%);
+  }
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,13,18,0.9);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--cyan);
+    text-shadow: 0 0 20px #00f5d470;
+    line-height: 1.1;
+  }
+  .logo span { color: var(--text); }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    color: var(--cyan);
+  }
+  .btn-icon {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+  .btn-icon:hover { border-color: var(--cyan); color: var(--cyan); }
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 16px 24px 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'Syne', sans-serif;
+  }
+  .tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+  .tab:hover:not(.active) { color: var(--text); }
+  /* MAIN */
+  main { padding: 24px; max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  /* PANEL */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .panel-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .panel-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  /* PROXY TOGGLE */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .toggle input { display: none; }
+  .toggle-track {
+    width: 100%;
+    height: 100%;
+    background: var(--border);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .toggle input:checked + .toggle-track { background: var(--cyan); }
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    pointer-events: none;
+  }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(22px); }
+  /* INPUT ROW */
+  .input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .input-field {
+    flex: 1;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: 'Space Mono', monospace;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-field:focus { border-color: var(--cyan); }
+  .input-field::placeholder { color: var(--muted); }
+  .btn-cyan {
+    background: var(--cyan);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 0 20px #00f5d440;
+  }
+  .btn-cyan:hover { background: #00e0c0; box-shadow: 0 0 30px #00f5d460; }
+  .btn-cyan:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-dark {
+    background: var(--card2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .btn-dark:hover { border-color: var(--cyan); color: var(--cyan); }
+  /* RESULT BOX */
+  .result-box {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .result-label {
+    font-size: 0.82rem;
+    color: var(--cyan);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .result-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .copy-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  .copy-btn:hover { color: var(--cyan); }
+  /* GOODY DETAIL */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .detail-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .detail-item-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+  .detail-item-value { font-size: 1rem; font-weight: 700; color: var(--cyan); font-family: 'Space Mono', monospace; }
+  /* COUNTDOWN */
+  .countdown-section {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .countdown-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
+  .countdown-value { font-size: 1.4rem; font-weight: 800; color: var(--cyan); font-family: 'Space Mono', monospace; }
+  .status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 1.5s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  /* CLAIM BUTTONS */
+  .claim-btns { display: flex; flex-direction: column; gap: 10px; }
+  .btn-claim {
+    background: var(--cyan);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 0 24px #00f5d450;
+  }
+  .btn-claim:hover { background: #00e0c0; transform: translateY(-1px); }
+  .btn-claim:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  /* JSON VIEWER */
+  .json-viewer {
+    background: #040c12;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #7ecfdd;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre;
+    line-height: 1.5;
+  }
+  /* CHARACTER ANALYSIS */
+  .char-group {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .char-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    color: var(--cyan);
+  }
+  .char-info { flex: 1; }
+  .char-badge { display: inline-block; background: var(--border); border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; font-weight: 700; color: var(--text); margin-bottom: 6px; margin-right: 6px; }
+  .char-detail { font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
+  .char-detail span { color: var(--text); font-family: 'Space Mono', monospace; }
+  /* SETTINGS PANEL */
+  .settings-panel { display: none; }
+  .settings-panel.active { display: block; }
+  .settings-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+  .cookies-area {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    outline: none;
+    resize: vertical;
+    min-height: 160px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  .cookies-area:focus { border-color: var(--cyan); }
+  .required-cookies {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 14px;
+  }
+  .required-cookies-title { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .cookie-tag {
+    display: inline-block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    margin: 3px;
+    font-family: 'Space Mono', monospace;
+  }
+  /* NOTIFICATION */
+  .notif {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--cyan);
+    color: #000;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    z-index: 9999;
+    transform: translateY(60px);
+    opacity: 0;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px #00f5d450;
+  }
+  .notif.show { transform: translateY(0); opacity: 1; }
+  /* STATUS MESSAGES */
+  .status-msg {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+  }
+  .status-msg.error { background: #ff4d6d20; border: 1px solid #ff4d6d50; color: #ff8fa3; }
+  .status-msg.loading { background: #00f5d410; border: 1px solid #00f5d430; color: var(--cyan); }
+  .status-msg.success { background: #00f5a020; border: 1px solid #00f5a050; color: var(--green); }
+  /* HIDDEN */
+  .hidden { display: none !important; }
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+  }
+  footer span { color: var(--cyan); }
+  /* GUIDE SECTION */
+  .guide-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .guide-num {
+    width: 32px; height: 32px;
+    background: var(--cyan);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .guide-text h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 3px; }
+  .guide-text p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  code { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--cyan); }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+  }
+  .back-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  @media (max-width: 500px) {
+    .detail-grid { grid-template-columns: 1fr; }
+    main { padding: 14px; }
+    header { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">Copied!</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">TikTok<br><span>Goody</span> Bag</div>
+  <div class="header-right">
+    <div class="user-badge">👤 <span id="usernameDisplay">Guest</span></div>
+    <button class="btn-icon" onclick="showSettings()" title="Settings">⚙️</button>
+    <button class="btn-icon" onclick="showGuide()" title="Guide">📖</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs" id="mainTabs">
+  <button class="tab active" onclick="switchTab('fetch')">Get Room ID + Analysis</button>
+  <button class="tab" onclick="switchTab('claim')">Claim Goody Bag</button>
+</div>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main id="mainContent">
+
+  <!-- PROXY TOGGLE -->
+  <div class="panel">
+    <div class="toggle-row">
+      <div>
+        <div class="panel-title">Use Proxy</div>
+        <div class="panel-sub" style="margin-bottom:0">Enable proxy for all TikTok API requests</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="proxyToggle">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- FETCH ROOM ID -->
+  <div class="panel" id="panel-fetch">
+    <div class="panel-title">Fetch Room ID</div>
+    <div class="panel-sub">Enter a TikTok username to get their live room ID</div>
+    <div>
+      <div class="settings-label">TikTok Username</div>
+      <div class="input-row">
+        <input type="text" class="input-field" id="usernameInput" placeholder="e.g. gen_cuan99" />
+        <button class="btn-cyan" onclick="fetchRoomId()">Fetch</button>
+      </div>
+      <div id="roomIdResult" class="hidden">
+        <div class="result-box">
+          <div>
+            <div class="result-label">✅ Room ID:</div>
+            <div class="result-value" id="roomIdValue">—</div>
+          </div>
+          <button class="copy-btn" onclick="copyText(document.getElementById('roomIdValue').textContent)" title="Copy">⧉</button>
+        </div>
+      </div>
+      <div id="fetchStatus"></div>
+    </div>
+  </div>
+
+  <!-- FETCH GOODY BAG DETAILS -->
+  <div class="panel" id="panel-details">
+    <div class="panel-title">Fetch Goody Bag Details</div>
+    <div class="panel-sub">Get detailed information about the live room goody bag</div>
+    <div class="input-row">
+      <div style="flex:1">
+        <div class="settings-label">Room ID</div>
+        <input type="text" class="input-field" id="roomIdInput" placeholder="Paste Room ID or auto-filled" />
+      </div>
+      <button class="btn-cyan" onclick="fetchGoodyDetails()" style="margin-top:20px">Get Goody Bag Details</button>
+    </div>
+    <div id="detailsStatus"></div>
+
+    <!-- GOODY DETAIL RESULTS -->
+    <div id="goodyDetails" class="hidden">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-item-label">🎁 Total Coins</div>
+          <div class="detail-item-value" id="d-totalcoin">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-item-label">🏆 Winners</div>
+          <div class="detail-item-value" id="d-winners">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-item-label">⏱ Countdown (min)</div>
+          <div class="detail-item-value" id="d-countdown">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-item-label">👥 Participants</div>
+          <div class="detail-item-value" id="d-joined">—</div>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN LIVE -->
+      <div class="countdown-section" id="countdownSection">
+        <div>
+          <div class="countdown-label">Opens in:</div>
+          <div class="countdown-value" id="liveCountdown">—</div>
+        </div>
+        <div class="status-dot"></div>
+      </div>
+
+      <!-- CHARACTER ANALYSIS -->
+      <div id="charAnalysis" class="hidden">
+        <div class="panel-title" style="margin-bottom:4px">Character Analysis</div>
+        <div class="panel-sub">Unicode breakdown of participate method content</div>
+        <div style="margin-bottom:10px">
+          <div class="settings-label">Original Text:</div>
+          <div class="result-box">
+            <div class="result-value" id="charOriginal" style="font-size:1.1rem">—</div>
+          </div>
+          <div style="font-size:0.78rem; color:var(--muted); margin-top:6px" id="charLength"></div>
+        </div>
+        <div id="charGroups"></div>
+      </div>
+
+      <!-- JSON FULL RESPONSE -->
+      <div style="margin-top:14px">
+        <div class="panel-title" style="margin-bottom:4px">Full Response Data</div>
+        <div class="panel-sub">Complete API response from TikTok</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+          <button class="btn-dark" onclick="copyJson()">⧉ Copy All</button>
+          <button class="btn-dark" onclick="toggleJson()">{ } JSON</button>
+        </div>
+        <div class="json-viewer" id="jsonViewer">No data yet.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== CLAIM TAB ========== -->
+<main id="claimContent" class="hidden">
+  <div class="panel">
+    <div class="panel-title" style="color:var(--cyan)">Claim Goody Bag</div>
+    <div class="panel-sub" id="claimCountdownLabel">Set up cookies in Settings first, then fetch goody bag details.</div>
+
+    <div class="claim-btns">
+      <button class="btn-claim" id="claimNowBtn" onclick="claimNow()">
+        🎁 Claim Now
+      </button>
+      <button class="btn-dark" id="autoClaimBtn" onclick="toggleAutoClaim()" style="justify-content:center; padding:14px; font-size:0.95rem;">
+        ⏰ Auto Claim (10s Before)
+      </button>
+    </div>
+    <div id="claimStatus"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">How Claiming Works</div>
+    <div class="panel-sub">Understanding the TikTok Goody Bag claim process</div>
+    <div class="guide-step">
+      <div class="guide-num">1</div>
+      <div class="guide-text">
+        <h4>Login to TikTok Web</h4>
+        <p>Go to <code>tiktok.com</code> in your browser, log in to your account.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">2</div>
+      <div class="guide-text">
+        <h4>Extract Your Cookies</h4>
+        <p>Use a browser extension like <code>Cookie-Editor</code> or <code>EditThisCookie</code> to export your TikTok cookies. You need: <code>msToken</code>, <code>sessionid</code>, <code>csrfToken</code>, <code>sid_guard</code>, <code>uid_tt</code> and others.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">3</div>
+      <div class="guide-text">
+        <h4>Paste Cookies in Settings</h4>
+        <p>Go to ⚙️ Settings and paste your cookies in <code>key: value</code> format (one per line) or semicolon-separated.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">4</div>
+      <div class="guide-text">
+        <h4>Fetch Goody Bag & Claim</h4>
+        <p>Get the Room ID, fetch goody bag details, then use <strong>Claim Now</strong> or <strong>Auto Claim</strong> which fires 10 seconds before the goody bag opens.</p>
+      </div>
+    </div>
+    <div style="background:#ff4d6d15; border:1px solid #ff4d6d40; border-radius:10px; padding:12px; font-size:0.8rem; color:#ff8fa3; line-height:1.6;">
+      ⚠️ <strong>Note:</strong> Claiming requires valid TikTok session cookies. Cookies expire regularly and you'll need to refresh them. Use at your own risk and respect TikTok's rate limits.
+    </div>
+  </div>
+</main>
+
+<!-- ========== SETTINGS ========== -->
+<main id="settingsContent" class="hidden">
+  <button class="back-btn" onclick="hideSettings()">← Back</button>
+
+  <div class="panel">
+    <div class="panel-title" style="font-size:1.3rem; color:var(--cyan)">Settings</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Signup Cookies Configuration</div>
+    <div class="panel-sub">Configure your cookies for claiming goody bags. Paste directly from browser (semicolon-separated) or use <code>key: value</code> format (one per line)</div>
+
+    <div class="toggle-row" style="margin-bottom:16px">
+      <div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--text)">Use Proxy (Website Setting)</div>
+        <div style="font-size:0.8rem;color:var(--muted);line-height:1.4;max-width:260px">Enable proxy for all TikTok API requests (default: disabled)</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="proxyToggle2">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+
+    <div class="settings-label" style="margin-bottom:6px">Signup Cookies</div>
+    <textarea class="cookies-area" id="cookiesInput" placeholder="Paste your TikTok cookies here...
+Example (key: value format):
+msToken: abc123...
+sessionid: xyz789...
+csrfToken: def456...
+
+Or semicolon-separated:
+msToken=abc123; sessionid=xyz789; csrfToken=def456"></textarea>
+
+    <div class="required-cookies">
+      <div class="required-cookies-title">Required Cookies:</div>
+      <span class="cookie-tag">msToken</span>
+      <span class="cookie-tag">csrfToken</span>
+      <span class="cookie-tag">csrf_session_id</span>
+      <span class="cookie-tag">sessionid</span>
+      <span class="cookie-tag">sessionid_ss</span>
+      <span class="cookie-tag">sid_guard</span>
+      <span class="cookie-tag">sid_tt</span>
+      <span class="cookie-tag">uid_tt</span>
+      <span class="cookie-tag">uid_tt_ss</span>
+      <span class="cookie-tag">ttwid</span>
+    </div>
+
+    <button class="btn-cyan" style="width:100%; margin-top:14px; padding:14px;" onclick="saveCookies()">💾 Save Cookies</button>
+  </div>
+</main>
+
+<!-- ========== GUIDE ========== -->
+<main id="guideContent" class="hidden">
+  <button class="back-btn" onclick="hideGuide()">← Back</button>
+  <div class="panel">
+    <div class="panel-title" style="font-size:1.2rem; color:var(--cyan); margin-bottom:12px">Complete Guide</div>
+
+    <div class="guide-step">
+      <div class="guide-num">1</div>
+      <div class="guide-text">
+        <h4>Find a TikTok LIVE with Goody Bag</h4>
+        <p>Open TikTok app and find a streamer who is live and has set up a Goody Bag (you'll see a gift icon on their live). Note their username.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">2</div>
+      <div class="guide-text">
+        <h4>Fetch Room ID</h4>
+        <p>Enter the TikTok username in the <strong>Fetch Room ID</strong> section and click Fetch. The Room ID will appear automatically.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">3</div>
+      <div class="guide-text">
+        <h4>Get Goody Bag Details</h4>
+        <p>The Room ID auto-fills in the next section. Click <strong>Get Goody Bag Details</strong> to see: total coins, number of winners, countdown timer, participants, and the participation method (character to type).</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">4</div>
+      <div class="guide-text">
+        <h4>Read Character Analysis</h4>
+        <p>The Character Analysis shows you the exact Unicode characters needed to participate. Some goody bags require typing special emoji/Unicode characters in chat. Use <strong>Copy</strong> button to copy the exact character sequence.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">5</div>
+      <div class="guide-text">
+        <h4>Participate in the LIVE</h4>
+        <p>Go to the TikTok LIVE, wait for the goody bag countdown, then type the participation character in chat at the right time.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="guide-num">6</div>
+      <div class="guide-text">
+        <h4>(Optional) Auto Claim via API</h4>
+        <p>For automated claiming, add your TikTok cookies in ⚙️ Settings. The Auto Claim feature will automatically send the participation request 10 seconds before the goody bag opens.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>TikTok Goody Bag Tool</span> — Built for educational purposes<br>
+  Ensure proper authentication and respect rate limits when using TikTok APIs
+</footer>
+
+<script>
+// ====== STATE ======
+let currentTab = 'fetch';
+let roomIdFetched = '';
+let goodyData = null;
+let countdownInterval = null;
+let autoClaimTimer = null;
+let autoClaimActive = false;
+
+// ====== NOTIFICATION ======
+function showNotif(msg, color = '#00f5d4') {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.style.background = color;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showNotif('Copied!'));
+}
+
+// ====== TABS ======
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0&&tab==='fetch')||(i===1&&tab==='claim'));
+  });
+  document.getElementById('mainContent').classList.toggle('hidden', tab !== 'fetch');
+  document.getElementById('claimContent').classList.toggle('hidden', tab !== 'claim');
+}
+
+// ====== SETTINGS ======
+function showSettings() {
+  document.getElementById('mainContent').classList.add('hidden');
+  document.getElementById('claimContent').classList.add('hidden');
+  document.getElementById('mainTabs').classList.add('hidden');
+  document.getElementById('settingsContent').classList.remove('hidden');
+  document.getElementById('guideContent').classList.add('hidden');
+  // Load saved cookies
+  const saved = localStorage.getItem('tt_cookies') || '';
+  document.getElementById('cookiesInput').value = saved;
+}
+function hideSettings() {
+  document.getElementById('settingsContent').classList.add('hidden');
+  document.getElementById('mainTabs').classList.remove('hidden');
+  switchTab(currentTab);
+}
+function showGuide() {
+  document.getElementById('mainContent').classList.add('hidden');
+  document.getElementById('claimContent').classList.add('hidden');
+  document.getElementById('mainTabs').classList.add('hidden');
+  document.getElementById('settingsContent').classList.add('hidden');
+  document.getElementById('guideContent').classList.remove('hidden');
+}
+function hideGuide() {
+  document.getElementById('guideContent').classList.add('hidden');
+  document.getElementById('mainTabs').classList.remove('hidden');
+  switchTab(currentTab);
+}
+function saveCookies() {
+  const val = document.getElementById('cookiesInput').value.trim();
+  localStorage.setItem('tt_cookies', val);
+  showNotif('Cookies saved!');
+}
+
+// ====== STATUS HELPERS ======
+function setStatus(id, msg, type='loading') {
+  const el = document.getElementById(id);
+  if (!msg) { el.innerHTML=''; return; }
+  el.innerHTML = `<div class="status-msg ${type}">${msg}</div>`;
+}
+
+// ====== FETCH ROOM ID ======
+async function fetchRoomId() {
+  const username = document.getElementById('usernameInput').value.trim().replace('@','');
+  if (!username) { setStatus('fetchStatus','Please enter a username.','error'); return; }
+  
+  setStatus('fetchStatus','⏳ Fetching room ID...','loading');
+  document.getElementById('roomIdResult').classList.add('hidden');
+
+  try {
+    // TikTok API endpoint to get user info / room ID
+    // Using public TikTok API - this works for users currently live
+    const useProxy = document.getElementById('proxyToggle').checked;
+    const url = `https://www.tiktok.com/api/live/detail/?aid=1988&uniqueId=${encodeURIComponent(username)}`;
+    
+    // Try via a CORS proxy if enabled, or direct
+    let apiUrl = url;
+    if (useProxy) {
+      apiUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    } else {
+      // Use allorigins as fallback for CORS
+      apiUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    }
+
+    const resp = await fetch(apiUrl);
+    const data = await resp.json();
+
+    // Try to extract room ID from various response structures
+    let roomId = null;
+    if (data?.data?.liveRoom?.roomId) roomId = data.data.liveRoom.roomId;
+    else if (data?.roomId) roomId = data.roomId;
+    else if (data?.data?.roomId) roomId = data.data.roomId;
+    
+    // Alternative: use webcast API
+    if (!roomId) {
+      await fetchRoomIdAlt(username);
+      return;
+    }
+
+    roomIdFetched = String(roomId);
+    document.getElementById('roomIdValue').textContent = roomIdFetched;
+    document.getElementById('roomIdResult').classList.remove('hidden');
+    document.getElementById('roomIdInput').value = roomIdFetched;
+    setStatus('fetchStatus', '✅ Room ID fetched successfully!', 'success');
+    setTimeout(() => setStatus('fetchStatus',''), 3000);
+
+  } catch(e) {
+    await fetchRoomIdAlt(document.getElementById('usernameInput').value.trim().replace('@',''));
+  }
+}
+
+async function fetchRoomIdAlt(username) {
+  try {
+    // Alternative endpoint
+    const url = `https://www.tiktok.com/@${username}/live`;
+    const apiUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    const resp = await fetch(apiUrl);
+    const html = await resp.text();
+    
+    // Extract room ID from HTML
+    const match = html.match(/"roomId"\s*:\s*"?(\d+)"?/);
+    if (match) {
+      roomIdFetched = match[1];
+      document.getElementById('roomIdValue').textContent = roomIdFetched;
+      document.getElementById('roomIdResult').classList.remove('hidden');
+      document.getElementById('roomIdInput').value = roomIdFetched;
+      setStatus('fetchStatus', '✅ Room ID fetched!', 'success');
+      setTimeout(() => setStatus('fetchStatus',''), 3000);
+    } else {
+      setStatus('fetchStatus', '❌ Could not find Room ID. The user may not be live, or try enabling proxy.', 'error');
+    }
+  } catch(e) {
+    setStatus('fetchStatus', `❌ Error: ${e.message}. Try enabling proxy or check the username.`, 'error');
+  }
+}
+
+// ====== FETCH GOODY DETAILS ======
+async function fetchGoodyDetails() {
+  const roomId = document.getElementById('roomIdInput').value.trim() || roomIdFetched;
+  if (!roomId) { setStatus('detailsStatus','Please enter a Room ID.','error'); return; }
+  
+  setStatus('detailsStatus','⏳ Fetching goody bag details...','loading');
+  document.getElementById('goodyDetails').classList.add('hidden');
+
+  try {
+    const cookies = localStorage.getItem('tt_cookies') || '';
+    const parsedCookies = parseCookies(cookies);
+    
+    const useProxy = document.getElementById('proxyToggle').checked;
+    const apiUrl = `https://webcast.tiktok.com/webcast/gift/goody_bag/detail/?room_id=${roomId}&aid=1988`;
+    
+    let fetchUrl;
+    if (useProxy) {
+      fetchUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+    } else {
+      fetchUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+    }
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (parsedCookies.length > 0) {
+      headers['Cookie'] = parsedCookies.map(c => `${c.key}=${c.value}`).join('; ');
+    }
+
+    const resp = await fetch(fetchUrl, { headers });
+    const data = await resp.json();
+    
+    goodyData = data;
+    renderGoodyDetails(data, roomId);
+    setStatus('detailsStatus','','');
+
+  } catch(e) {
+    // Show demo data so user can see the UI
+    setStatus('detailsStatus', `⚠️ API Error: ${e.message}. Showing demo data. Add cookies in Settings for real data.`, 'error');
+    renderGoodyDetails(getDemoData(roomId), roomId);
+  }
+}
+
+function getDemoData(roomId) {
+  return {
+    data: {
+      base_info: {
+        biz: 2,
+        coin_detail: { total_coin: 10 },
+        common_detail: {
+          count_down_minutes: 5,
+          joined_headcount: 0,
+          open_at: Math.floor(Date.now()/1000) + 300,
+          participate_method: 1,
+          participate_method_content: "⊞ free⊟ ⊠\u2B1A\uFFFC",
+          participate_threshold_selected: { type: 2, value: 1 },
+          winner_headcount: 5
+        },
+        goody_bag_id: roomId + "001",
+        room_id: roomId
+      },
+      goody_bag_id: roomId + "001",
+      joined: false,
+    },
+    status_code: 0
+  };
+}
+
+function renderGoodyDetails(data, roomId) {
+  const base = data?.data?.base_info || data?.data || {};
+  const cd = base?.common_detail || {};
+  const coinDetail = base?.coin_detail || {};
+  
+  document.getElementById('d-totalcoin').textContent = coinDetail.total_coin ?? cd.total_coin ?? '—';
+  document.getElementById('d-winners').textContent = cd.winner_headcount ?? '—';
+  document.getElementById('d-countdown').textContent = cd.count_down_minutes ?? '—';
+  document.getElementById('d-joined').textContent = cd.joined_headcount ?? '—';
+
+  // Live countdown
+  if (cd.open_at) {
+    startCountdown(cd.open_at);
+    updateClaimCountdown(cd.open_at, cd.count_down_minutes);
+  } else if (cd.count_down_minutes) {
+    document.getElementById('liveCountdown').textContent = `${cd.count_down_minutes}m 0s`;
+  }
+
+  // Character analysis
+  const methodContent = cd.participate_method_content;
+  if (methodContent) {
+    renderCharAnalysis(methodContent);
+    document.getElementById('charAnalysis').classList.remove('hidden');
+  }
+
+  // JSON viewer
+  document.getElementById('jsonViewer').textContent = JSON.stringify(data, null, 2);
+
+  document.getElementById('goodyDetails').classList.remove('hidden');
+}
+
+function startCountdown(openAt) {
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(() => {
+    const now = Math.floor(Date.now()/1000);
+    const diff = openAt - now;
+    if (diff <= 0) {
+      document.getElementById('liveCountdown').textContent = 'OPEN NOW! 🎁';
+      clearInterval(countdownInterval);
+      return;
+    }
+    const m = Math.floor(diff/60);
+    const s = diff % 60;
+    document.getElementById('liveCountdown').textContent = `${m}m ${s}s`;
+    
+    if (autoClaimActive && diff <= 10) {
+      performClaim();
+      autoClaimActive = false;
+      document.getElementById('autoClaimBtn').textContent = '⏰ Auto Claim (10s Before)';
+    }
+  }, 1000);
+}
+
+function updateClaimCountdown(openAt, fallbackMin) {
+  const diff = openAt - Math.floor(Date.now()/1000);
+  const m = Math.floor(diff/60);
+  const s = diff % 60;
+  document.getElementById('claimCountdownLabel').textContent = `Opens in: ${m}m ${s}s`;
+}
+
+// ====== CHARACTER ANALYSIS ======
+function renderCharAnalysis(text) {
+  document.getElementById('charOriginal').textContent = text;
+  document.getElementById('charLength').textContent = `Total length: ${text.length} characters`;
+
+  const groups = [];
+  let i = 0;
+  while (i < text.length) {
+    const code = text.codePointAt(i);
+    const char = String.fromCodePoint(code);
+    // Find run of same char
+    let count = 0;
+    let j = i;
+    while (j < text.length && text.codePointAt(j) === code) {
+      count++;
+      j += char.length;
+    }
+    groups.push({ char, code, count });
+    i = j;
+  }
+
+  document.getElementById('charLength').textContent = `Total length: ${text.length} characters`;
+  const container = document.getElementById('charGroups');
+  container.innerHTML = `<div class="panel-sub">Character Groups: ${groups.length}</div>`;
+
+  groups.forEach((g, idx) => {
+    const hex = g.code.toString(16).toUpperCase().padStart(4,'0');
+    const isVisible = g.code > 31 && g.code !== 65279 && g.code !== 65532;
+    const displayChar = isVisible ? g.char : '⊟';
+    const div = document.createElement('div');
+    div.className = 'char-group';
+    div.innerHTML = `
+      <div class="char-icon">${displayChar}</div>
+      <div class="char-info">
+        <span class="char-badge">Group ${idx+1}</span>
+        <span class="char-badge" style="color:var(--cyan)">Character: ${isVisible?g.char:'[special]'}</span><br>
+        <div class="char-detail">Unicode: <span>U+${hex}</span></div>
+        <div class="char-detail">Decimal: <span>${g.code}</span></div>
+        <div class="char-detail">Count in sequence: <span>${g.count}</span></div>
+        <button class="btn-dark" style="margin-top:8px;font-size:0.78rem;padding:6px 12px" onclick="copyText('${Array(g.count).fill(g.char).join('')}')">⧉ Copy ${g.count}×</button>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ====== JSON ======
+let jsonVisible = true;
+function toggleJson() {
+  jsonVisible = !jsonVisible;
+  document.getElementById('jsonViewer').style.display = jsonVisible ? 'block' : 'none';
+}
+function copyJson() {
+  const text = document.getElementById('jsonViewer').textContent;
+  copyText(text);
+}
+
+// ====== COOKIES ======
+function parseCookies(raw) {
+  if (!raw) return [];
+  const result = [];
+  // Support key: value (newline) or key=value; key=value
+  const lines = raw.includes('\n') ? raw.split('\n') : raw.split(';');
+  lines.forEach(line => {
+    line = line.trim();
+    if (!line) return;
+    const colonIdx = line.indexOf(':');
+    const eqIdx = line.indexOf('=');
+    if (colonIdx > 0 && (colonIdx < eqIdx || eqIdx === -1)) {
+      result.push({ key: line.slice(0,colonIdx).trim(), value: line.slice(colonIdx+1).trim() });
+    } else if (eqIdx > 0) {
+      result.push({ key: line.slice(0,eqIdx).trim(), value: line.slice(eqIdx+1).trim() });
+    }
+  });
+  return result;
+}
+
+// ====== CLAIM ======
+async function claimNow() {
+  const roomId = document.getElementById('roomIdInput').value.trim() || roomIdFetched;
+  if (!roomId) { setStatus('claimStatus','No Room ID. Fetch goody bag details first.','error'); return; }
+  await performClaim();
+}
+
+async function performClaim() {
+  const roomId = document.getElementById('roomIdInput').value.trim() || roomIdFetched;
+  const cookies = localStorage.getItem('tt_cookies') || '';
+  if (!cookies) {
+    setStatus('claimStatus','⚠️ No cookies found. Add your TikTok cookies in ⚙️ Settings first.','error');
+    return;
+  }
+
+  setStatus('claimStatus','⏳ Attempting to claim goody bag...','loading');
+  document.getElementById('claimNowBtn').disabled = true;
+
+  try {
+    const parsedCookies = parseCookies(cookies);
+    const cookieStr = parsedCookies.map(c=>`${c.key}=${c.value}`).join('; ');
+    const csrfToken = parsedCookies.find(c=>c.key==='csrfToken')?.value || 
+                      parsedCookies.find(c=>c.key==='passport_csrf_token')?.value || '';
+    const goodyBagId = goodyData?.data?.goody_bag_id || goodyData?.data?.base_info?.goody_bag_id || '';
+
+    const useProxy = document.getElementById('proxyToggle').checked;
+    const apiUrl = `https://webcast.tiktok.com/webcast/gift/goody_bag/signup/`;
+    const fetchUrl = useProxy 
+      ? `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`
+      : `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+
+    const body = new URLSearchParams({
+      room_id: roomId,
+      goody_bag_id: goodyBagId,
+      aid: '1988'
+    });
+
+    const resp = await fetch(fetchUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Cookie': cookieStr,
+        'X-CSRFToken': csrfToken,
+      },
+      body: body.toString()
+    });
+
+    const data = await resp.json();
+    if (data?.status_code === 0) {
+      setStatus('claimStatus', '🎉 Successfully claimed goody bag!', 'success');
+      showNotif('🎁 Claimed!', '#00f5a0');
+    } else {
+      setStatus('claimStatus', `⚠️ Response: ${JSON.stringify(data)}. Check cookies or try again.`, 'error');
+    }
+  } catch(e) {
+    setStatus('claimStatus', `❌ Claim failed: ${e.message}. Your cookies may be expired or cookies are required.`, 'error');
+  }
+
+  document.getElementById('claimNowBtn').disabled = false;
+}
+
+function toggleAutoClaim() {
+  autoClaimActive = !autoClaimActive;
+  const btn = document.getElementById('autoClaimBtn');
+  if (autoClaimActive) {
+    btn.innerHTML = '⏰ Auto Claim: ON ✓';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+    showNotif('Auto Claim enabled!');
+  } else {
+    btn.innerHTML = '⏰ Auto Claim (10s Before)';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
+
+// Sync proxy toggles
+document.getElementById('proxyToggle').addEventListener('change', function(){
+  document.getElementById('proxyToggle2').checked = this.checked;
+});
+document.getElementById('proxyToggle2').addEventListener('change', function(){
+  document.getElementById('proxyToggle').checked = this.checked;
+});
+</script>
+</body>
+</html>
