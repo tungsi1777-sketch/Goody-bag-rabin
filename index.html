@@ -8,15 +8,14 @@
 <style>
   :root {
     --cyan: #00f5d4;
-    --cyan-dim: #00c9ad;
     --bg: #050d12;
     --card: #0d1f2d;
-    --card2: #0a1a26;
+    --card2: #081520;
     --border: #1a3a4a;
     --text: #c8e6f0;
-    --muted: #5a8a99;
-    --red: #ff4d6d;
+    --muted: #4a7a8a;
     --green: #00f5a0;
+    --red: #ff6b6b;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -24,355 +23,326 @@
     color: var(--text);
     font-family: 'Syne', sans-serif;
     min-height: 100vh;
-    background-image: radial-gradient(ellipse at 20% 20%, #00f5d415 0%, transparent 50%),
-                      radial-gradient(ellipse at 80% 80%, #00f5d408 0%, transparent 50%);
+    background-image: radial-gradient(ellipse at 15% 10%, #00f5d412 0%, transparent 45%);
   }
-  /* HEADER */
   header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(5,13,18,0.9);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    background: rgba(5,13,18,0.95); backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
   }
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--cyan);
-    text-shadow: 0 0 20px #00f5d470;
-    line-height: 1.1;
-  }
+  .logo { font-size: 1.35rem; font-weight: 800; color: var(--cyan); text-shadow: 0 0 18px #00f5d455; line-height: 1.1; }
   .logo span { color: var(--text); }
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .user-badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
-    color: var(--cyan);
-  }
+  .header-right { display: flex; align-items: center; gap: 8px; }
   .btn-icon {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 7px 10px;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.2s;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 10px; color: var(--text);
+    cursor: pointer; font-size: 0.95rem; transition: all 0.2s;
   }
   .btn-icon:hover { border-color: var(--cyan); color: var(--cyan); }
-  /* TABS */
-  .tabs {
-    display: flex;
-    gap: 0;
-    padding: 16px 24px 0;
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-  }
-  .tab {
-    padding: 10px 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: all 0.2s;
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    font-family: 'Syne', sans-serif;
-  }
-  .tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
-  .tab:hover:not(.active) { color: var(--text); }
-  /* MAIN */
-  main { padding: 24px; max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-  /* PANEL */
-  .panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-  }
-  .panel-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-  .panel-sub {
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin-bottom: 16px;
-    line-height: 1.4;
-  }
-  /* PROXY TOGGLE */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .toggle {
-    position: relative;
-    width: 48px;
-    height: 26px;
-    flex-shrink: 0;
-  }
+  main { max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; }
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .card-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .toggle { position: relative; width: 46px; height: 25px; flex-shrink: 0; cursor: pointer; }
   .toggle input { display: none; }
-  .toggle-track {
-    width: 100%;
-    height: 100%;
-    background: var(--border);
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
+  .toggle-track { width: 100%; height: 100%; background: var(--border); border-radius: 50px; transition: background 0.3s; }
   .toggle input:checked + .toggle-track { background: var(--cyan); }
-  .toggle-thumb {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 0.3s;
-    pointer-events: none;
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 19px; height: 19px; background: white; border-radius: 50%; transition: transform 0.3s; pointer-events: none; }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(21px); }
+  .field-label { font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .input-row { display: flex; gap: 8px; }
+  .inp {
+    flex: 1; background: var(--card2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 14px; color: var(--text);
+    font-size: 0.88rem; font-family: 'Space Mono', monospace;
+    outline: none; transition: border-color 0.2s;
   }
-  .toggle input:checked ~ .toggle-thumb { transform: translateX(22px); }
-  /* INPUT ROW */
-  .input-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
+  .inp:focus { border-color: var(--cyan); }
+  .inp::placeholder { color: var(--muted); }
+  .inp[readonly] { opacity: 0.7; }
+  .btn-fetch {
+    background: var(--cyan); color: #000; border: none; border-radius: 10px;
+    padding: 11px 22px; font-weight: 700; font-size: 0.88rem;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+    transition: all 0.2s; white-space: nowrap; box-shadow: 0 0 16px #00f5d430;
   }
-  .input-field {
-    flex: 1;
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-family: 'Space Mono', monospace;
-    outline: none;
-    transition: border-color 0.2s;
+  .btn-fetch:hover { background: #00dfc0; box-shadow: 0 0 24px #00f5d450; }
+  .btn-fetch:disabled { opacity: 0.5; cursor: not-allowed; }
+  .result-row {
+    margin-top: 10px; background: var(--card2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
   }
-  .input-field:focus { border-color: var(--cyan); }
-  .input-field::placeholder { color: var(--muted); }
-  .btn-cyan {
-    background: var(--cyan);
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    transition: all 0.2s;
-    white-space: nowrap;
-    box-shadow: 0 0 20px #00f5d440;
-  }
-  .btn-cyan:hover { background: #00e0c0; box-shadow: 0 0 30px #00f5d460; }
-  .btn-cyan:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-dark {
-    background: var(--card2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 18px;
-    font-weight: 600;
-    font-size: 0.88rem;
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .btn-dark:hover { border-color: var(--cyan); color: var(--cyan); }
-  /* RESULT BOX */
-  .result-box {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .result-label {
-    font-size: 0.82rem;
-    color: var(--cyan);
-    font-weight: 700;
-    margin-bottom: 2px;
-  }
-  .result-value {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--text);
-    word-break: break-all;
-  }
-  .copy-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 4px;
-    flex-shrink: 0;
-    transition: color 0.2s;
-  }
+  .result-label { font-size: 0.75rem; color: var(--cyan); font-weight: 700; margin-bottom: 2px; }
+  .result-val { font-family: 'Space Mono', monospace; font-size: 0.82rem; color: var(--text); word-break: break-all; }
+  .copy-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 3px 6px; transition: color 0.2s; flex-shrink: 0; }
   .copy-btn:hover { color: var(--cyan); }
-  /* GOODY DETAIL */
-  .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
+  .status { margin-top: 10px; padding: 9px 13px; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; }
+  .status.loading { background: #00f5d410; border: 1px solid #00f5d425; color: var(--cyan); }
+  .status.error { background: #ff6b6b15; border: 1px solid #ff6b6b35; color: #ff9999; }
+  .status.success { background: #00f5a015; border: 1px solid #00f5a035; color: var(--green); }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .detail-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .detail-box-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+  .detail-box-val { font-size: 1rem; font-weight: 800; color: var(--cyan); font-family: 'Space Mono', monospace; }
+  .countdown-bar {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
   }
-  .detail-item {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
+  .countdown-label { font-size: 0.76rem; color: var(--muted); margin-bottom: 2px; }
+  .countdown-val { font-size: 1.5rem; font-weight: 800; color: var(--cyan); font-family: 'Space Mono', monospace; }
+  .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+  .method-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+  .method-text { font-size: 1.4rem; color: var(--text); margin: 6px 0; min-height: 36px; letter-spacing: 2px; }
+  .char-group-card {
+    background: var(--card2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 9px;
   }
-  .detail-item-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
-  .detail-item-value { font-size: 1rem; font-weight: 700; color: var(--cyan); font-family: 'Space Mono', monospace; }
-  /* COUNTDOWN */
-  .countdown-section {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .countdown-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
-  .countdown-value { font-size: 1.4rem; font-weight: 800; color: var(--cyan); font-family: 'Space Mono', monospace; }
-  .status-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 8px var(--green);
-    animation: pulse 1.5s infinite;
-    flex-shrink: 0;
-  }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
-  /* CLAIM BUTTONS */
-  .claim-btns { display: flex; flex-direction: column; gap: 10px; }
-  .btn-claim {
-    background: var(--cyan);
-    color: #000;
-    border: none;
-    border-radius: 12px;
-    padding: 14px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 0 24px #00f5d450;
-  }
-  .btn-claim:hover { background: #00e0c0; transform: translateY(-1px); }
+  .char-icon { width: 52px; height: 52px; flex-shrink: 0; background: var(--card); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--cyan); }
+  .char-info { flex: 1; min-width: 0; }
+  .char-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+  .badge { display: inline-block; background: var(--border); border-radius: 5px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700; color: var(--text); }
+  .badge.cyan { background: #00f5d420; color: var(--cyan); border: 1px solid #00f5d440; }
+  .char-row { font-size: 0.78rem; color: var(--muted); margin-bottom: 2px; }
+  .char-row span { color: var(--text); font-family: 'Space Mono', monospace; }
+  .btn-copy-char { margin-top: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 7px; padding: 5px 12px; color: var(--text); font-size: 0.76rem; font-family: 'Syne', sans-serif; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px; }
+  .btn-copy-char:hover { border-color: var(--cyan); color: var(--cyan); }
+  .json-block { background: #030b10; border: 1px solid var(--border); border-radius: 10px; padding: 14px; font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #6ecfdf; max-height: 260px; overflow: auto; white-space: pre; line-height: 1.6; margin-top: 10px; }
+  .row-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .btn-sm { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 14px; color: var(--text); font-size: 0.8rem; font-family: 'Syne', sans-serif; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+  .btn-sm:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn-claim { width: 100%; background: var(--cyan); color: #000; border: none; border-radius: 12px; padding: 15px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 22px #00f5d440; margin-bottom: 10px; }
+  .btn-claim:hover { background: #00dfc0; transform: translateY(-1px); }
   .btn-claim:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  /* JSON VIEWER */
-  .json-viewer {
-    background: #040c12;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: #7ecfdd;
-    overflow-x: auto;
-    max-height: 300px;
-    overflow-y: auto;
-    white-space: pre;
-    line-height: 1.5;
-  }
-  /* CHARACTER ANALYSIS */
-  .char-group {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-  .char-icon {
-    width: 56px;
-    height: 56px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    flex-shrink: 0;
-    color: var(--cyan);
-  }
-  .char-info { flex: 1; }
-  .char-badge { display: inline-block; background: var(--border); border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; font-weight: 700; color: var(--text); margin-bottom: 6px; margin-right: 6px; }
-  .char-detail { font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
-  .char-detail span { color: var(--text); font-family: 'Space Mono', monospace; }
-  /* SETTINGS PANEL */
-  .settings-panel { display: none; }
-  .settings-panel.active { display: block; }
-  .settings-label { font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-  .cookies-area {
-    width: 100%;
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    outline: none;
-    resize: vertical;
-    min-height: 160px;
-    line-height: 1.6;
-    transition: border-color 0.2s;
-  }
+  .btn-auto { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 12px; padding: 13px; font-weight: 600; font-size: 0.9rem; cursor: pointer; font-family: 'Syne', sans-serif; color: var(--text); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-auto:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn-auto.on { border-color: var(--green); color: var(--green); background: #00f5a010; }
+  #settingsPage { display: none; }
+  #settingsPage.show { display: flex; flex-direction: column; gap: 16px; }
+  .cookies-area { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 0.75rem; outline: none; resize: vertical; min-height: 150px; line-height: 1.7; transition: border-color 0.2s; }
   .cookies-area:focus { border-color: var(--cyan); }
-  .required-cookies {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    margin-top: 14px;
+  .cookie-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .cookie-tag { background: var(--card2); border: 1px solid var(--border); border-radius: 5px; padding: 3px 9px; font-size: 0.72rem; color: var(--cyan); font-family: 'Space Mono', monospace; }
+  .back-btn { display: inline-flex; align-items: center; gap: 7px; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.84rem; cursor: pointer; transition: all 0.2s; margin-bottom: 4px; }
+  .back-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .notif { position: fixed; bottom: 20px; right: 20px; background: var(--cyan); color: #000; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.84rem; z-index: 9999; transform: translateY(60px); opacity: 0; transition: all 0.3s; box-shadow: 0 4px 20px #00f5d450; pointer-events: none; }
+  .notif.show { transform: translateY(0); opacity: 1; }
+  .api-url-box { background: var(--card2); border: 1px solid var(--cyan); border-radius: 10px; padding: 10px 14px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--cyan); margin-bottom: 10px; word-break: break-all; }
+  footer { text-align: center; padding: 28px 20px; color: var(--muted); font-size: 0.75rem; line-height: 1.8; border-top: 1px solid var(--border); }
+  @media(max-width:480px){ .detail-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="notif" id="notif"></div>
+
+<header>
+  <div class="logo">TikTok<br><span>Goody</span> Bag</div>
+  <div class="header-right">
+    <button class="btn-icon" onclick="toggleSettings()">⚙️</button>
+  </div>
+</header>
+
+<!-- SETTINGS -->
+<main id="settingsPage">
+  <button class="back-btn" onclick="toggleSettings()">← Back</button>
+  <div class="card">
+    <div class="card-title" style="font-size:1.15rem;color:var(--cyan);margin-bottom:12px">Settings</div>
+
+    <!-- API URL -->
+    <div class="field-label">Backend API URL</div>
+    <div style="font-size:0.76rem;color:var(--muted);margin-bottom:6px">Your Railway/Render backend URL. Leave blank if hosted on same server.</div>
+    <input class="inp" id="apiUrlInput" placeholder="https://your-app.railway.app" style="width:100%;margin-bottom:14px" />
+
+    <div class="card-title" style="margin-bottom:4px">TikTok Cookies</div>
+    <div class="card-sub">Paste your TikTok cookies (semicolon-separated from Kiwi Browser)</div>
+    <textarea class="cookies-area" id="cookiesInput" placeholder="tt_chain_token=xxx; sessionid=xxx; msToken=xxx; ..."></textarea>
+    <div style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;margin-top:10px">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:8px">Required Cookies:</div>
+      <div class="cookie-tags">
+        <span class="cookie-tag">msToken</span><span class="cookie-tag">csrfToken</span>
+        <span class="cookie-tag">sessionid</span><span class="cookie-tag">sid_tt</span>
+        <span class="cookie-tag">uid_tt</span><span class="cookie-tag">ttwid</span>
+        <span class="cookie-tag">sid_guard</span><span class="cookie-tag">sessionid_ss</span>
+      </div>
+    </div>
+    <button class="btn-fetch" style="width:100%;margin-top:14px;padding:13px" onclick="saveSettings()">💾 Save Settings</button>
+  </div>
+</main>
+
+<!-- MAIN -->
+<main id="mainPage">
+
+  <!-- PROXY TOGGLE -->
+  <div class="card">
+    <div class="toggle-row">
+      <div>
+        <div class="card-title">Use Proxy</div>
+        <div style="font-size:0.78rem;color:var(--muted)">Enable proxy for all TikTok API requests</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="proxyToggle">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- STEP 1: FETCH ROOM ID -->
+  <div class="card">
+    <div class="card-title">Fetch Room ID</div>
+    <div class="card-sub">Enter a TikTok username to get their live room ID</div>
+    <div class="field-label">TikTok Username</div>
+    <div class="input-row">
+      <input class="inp" id="usernameInput" type="text" placeholder="e.g. gen_cuan99" />
+      <button class="btn-fetch" id="fetchRoomBtn" onclick="fetchRoomId()">Fetch</button>
+    </div>
+    <div id="roomStatus"></div>
+    <div id="roomIdBox" style="display:none">
+      <div class="result-row">
+        <div>
+          <div class="result-label">✅ Room ID:</div>
+          <div class="result-val" id="roomIdVal">—</div>
+        </div>
+        <button class="copy-btn" onclick="copyText(document.getElementById('roomIdVal').textContent)">⧉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: GOODY BAG DETAILS -->
+  <div class="card" id="section-details" style="display:none">
+    <div class="card-title">Fetch Goody Bag Details</div>
+    <div class="card-sub">Get detailed information about the live room goody bag</div>
+    <div class="field-label">Room ID</div>
+    <div class="input-row">
+      <input class="inp" id="roomIdInput" type="text" placeholder="Auto-filled from above" readonly />
+      <button class="btn-fetch" id="fetchDetailsBtn" onclick="fetchGoodyDetails()">Get Goody Bag Details</button>
+    </div>
+    <div id="detailsStatus"></div>
+
+    <div id="detailsBox" style="display:none;margin-top:14px">
+      <div class="detail-grid">
+        <div class="detail-box"><div class="detail-box-label">🎁 Total Coins</div><div class="detail-box-val" id="d-coins">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">🏆 Winners</div><div class="detail-box-val" id="d-winners">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">⏱ Countdown (min)</div><div class="detail-box-val" id="d-mins">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">👥 Joined</div><div class="detail-box-val" id="d-joined">—</div></div>
+      </div>
+
+      <div class="countdown-bar">
+        <div>
+          <div class="countdown-label">Opens in:</div>
+          <div class="countdown-val" id="liveCountdown">—</div>
+        </div>
+        <div class="pulse-dot"></div>
+      </div>
+
+      <div id="methodSection" style="display:none">
+        <div class="card-title" style="margin-bottom:6px">Participate Method</div>
+        <div class="card-sub" style="margin-bottom:8px">Type this exact text in TikTok live chat to join</div>
+        <div class="method-box">
+          <div class="field-label">Text to Type:</div>
+          <div class="method-text" id="methodText">—</div>
+          <button class="btn-copy-char" style="margin-top:8px" onclick="copyText(document.getElementById('methodText').textContent)">⧉ Copy Exact Text</button>
+        </div>
+      </div>
+
+      <div id="charSection" style="display:none">
+        <div class="card-title" style="margin-bottom:3px">Character Analysis</div>
+        <div class="card-sub">Unicode breakdown — copy each character group</div>
+        <div style="margin-bottom:12px">
+          <div class="field-label">Original Text:</div>
+          <div class="result-row">
+            <div class="result-val" id="charOriginal" style="font-size:1.1rem;letter-spacing:2px">—</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('charOriginal').textContent)">⧉</button>
+          </div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:6px" id="charMeta"></div>
+        </div>
+        <div id="charGroups"></div>
+      </div>
+
+      <div>
+        <div class="card-title" style="margin-bottom:2px">Full Response Data</div>
+        <div class="card-sub" style="margin-bottom:6px">Complete API response from TikTok</div>
+        <div class="row-btns">
+          <button class="btn-sm" onclick="copyText(document.getElementById('jsonBlock').textContent)">⧉ Copy All</button>
+          <button class="btn-sm" onclick="toggleJson()">{} JSON</button>
+        </div>
+        <div class="json-block" id="jsonBlock">No data yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: CLAIM -->
+  <div class="card" id="section-claim" style="display:none">
+    <div class="card-title" style="color:var(--cyan)">Claim Goody Bag</div>
+    <div class="card-sub" id="claimSubtitle">Ready to claim!</div>
+    <button class="btn-claim" id="claimNowBtn" onclick="claimNow()">🎁 Claim Now</button>
+    <button class="btn-auto" id="autoClaimBtn" onclick="toggleAutoClaim()">⏰ Auto Claim (10s Before)</button>
+    <div id="claimStatus" style="margin-top:10px"></div>
+  </div>
+
+</main>
+
+<footer>TikTok Goody Bag Tool — Respect TikTok rate limits and terms of service</footer>
+
+<script>
+// ── STATE ──
+let roomId = '';
+let goodyRaw = null;
+let openAtTs = 0;
+let countdownInterval = null;
+let autoClaimOn = false;
+
+// ── SETTINGS ──
+function getApiUrl() {
+  return (localStorage.getItem('api_url') || 'https://tiktok-goody-backend-production.up.railway.app').replace(/\/$/, '');
+}
+function getCookies() {
+  return localStorage.getItem('tt_cookies') || '';
+}
+function toggleSettings() {
+  const s = document.getElementById('settingsPage');
+  const m = document.getElementById('mainPage');
+  const on = s.classList.toggle('show');
+  m.style.display = on ? 'none' : 'flex';
+  if (on) {
+    document.getElementById('cookiesInput').value = getCookies();
+    document.getElementById('apiUrlInput').value = getApiUrl();
   }
-  .required-cookies-title { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+}
+function saveSettings() {
+  localStorage.setItem('tt_cookies', document.getElementById('cookiesInput').value.trim());
+  localStorage.setItem('api_url', document.getElementById('apiUrlInput').value.trim());
+  showNotif('Settings saved!');
+  toggleSettings();
+}
+
+// ── UTILS ──
+function showNotif(msg, color) {
+  const n = document.getElementById('notif');
+  n.textContent = msg; n.style.background = color || '#00f5d4';
+  n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 2400);
+}
+function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotif('Copied!')); }
+function setStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.innerHTML = msg ? `<div class="status ${type}">${msg}</div>` : '';
+}
+let jsonShown = true;
+function toggleJson() {
+  jsonShown = !jsonShown;
+  document.getElementById('jsonBlock').style.display = jsonShown ? '' : 'none';
+}
+
+// ── API CALL HELPER ──
+async function apiCall(path, options = {}) {
+  const base = getApiUrl();
+  const cookies = getCookies();
+  const url = base ? `${base}${path}` : path;
+  const headers = { 'Content-Type': 'application/json', 'x-cookies': cookies, ...(options.headers || {weight: 700; color: var(--text); margin-bottom: 8px; }
   .cookie-tag {
     display: inline-block;
     background: var(--card);
