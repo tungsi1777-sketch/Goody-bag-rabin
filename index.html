@@ -349,6 +349,213 @@ function setStatus(id, msg, type) {
 <header>
   <div class="logo">TikTok<br><span>Goody</span> Bag</div>
   <div class="header-right">
+    <button class="btn-icon" onclick="toggleSettings()" style="padding:12px 16px;font-size:1.3rem;min-width:52px;min-height:52px;">⚙️</button>
+  </div>
+</header>
+
+<!-- SETTINGS -->
+<main id="settingsPage">
+  <button class="back-btn" onclick="toggleSettings()">← Back</button>
+  <div class="card">
+    <div class="card-title" style="font-size:1.15rem;color:var(--cyan);margin-bottom:12px">Settings</div>
+
+    <!-- API URL -->
+    <div class="field-label">Backend API URL</div>
+    <div style="font-size:0.76rem;color:var(--muted);margin-bottom:6px">Your Railway/Render backend URL. Leave blank if hosted on same server.</div>
+    <input class="inp" id="apiUrlInput" placeholder="https://your-app.railway.app" style="width:100%;margin-bottom:14px" />
+
+    <div class="card-title" style="margin-bottom:4px">TikTok Cookies</div>
+    <div class="card-sub">Paste your TikTok cookies (semicolon-separated from Kiwi Browser)</div>
+    <textarea class="cookies-area" id="cookiesInput" placeholder="tt_chain_token=xxx; sessionid=xxx; msToken=xxx; ..."></textarea>
+    <div style="padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;margin-top:10px">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:8px">Required Cookies:</div>
+      <div class="cookie-tags">
+        <span class="cookie-tag">msToken</span><span class="cookie-tag">csrfToken</span>
+        <span class="cookie-tag">sessionid</span><span class="cookie-tag">sid_tt</span>
+        <span class="cookie-tag">uid_tt</span><span class="cookie-tag">ttwid</span>
+        <span class="cookie-tag">sid_guard</span><span class="cookie-tag">sessionid_ss</span>
+      </div>
+    </div>
+    <button class="btn-fetch" style="width:100%;margin-top:14px;padding:13px" onclick="saveSettings()">💾 Save Settings</button>
+  </div>
+</main>
+
+<!-- MAIN -->
+<main id="mainPage">
+
+  <!-- PROXY TOGGLE -->
+  <div class="card">
+    <div class="toggle-row">
+      <div>
+        <div class="card-title">Use Proxy</div>
+        <div style="font-size:0.78rem;color:var(--muted)">Enable proxy for all TikTok API requests</div>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="proxyToggle">
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- BIG SETTINGS BUTTON -->
+  <button onclick="toggleSettings()" style="width:100%;background:var(--card);border:2px solid var(--cyan);border-radius:16px;padding:18px;color:var(--cyan);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+    ⚙️ Settings — Masukkan Cookies TikTok kamu di sini
+  </button>
+
+  <!-- STEP 1: FETCH ROOM ID -->
+  <div class="card">
+    <div class="card-title">Fetch Room ID</div>
+    <div class="card-sub">Enter a TikTok username to get their live room ID</div>
+    <div class="field-label">TikTok Username</div>
+    <div class="input-row">
+      <input class="inp" id="usernameInput" type="text" placeholder="e.g. gen_cuan99" />
+      <button class="btn-fetch" id="fetchRoomBtn" onclick="fetchRoomId()">Fetch</button>
+    </div>
+    <div id="roomStatus"></div>
+    <div id="roomIdBox" style="display:none">
+      <div class="result-row">
+        <div>
+          <div class="result-label">✅ Room ID:</div>
+          <div class="result-val" id="roomIdVal">—</div>
+        </div>
+        <button class="copy-btn" onclick="copyText(document.getElementById('roomIdVal').textContent)">⧉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: GOODY BAG DETAILS -->
+  <div class="card" id="section-details" style="display:none">
+    <div class="card-title">Fetch Goody Bag Details</div>
+    <div class="card-sub">Get detailed information about the live room goody bag</div>
+    <div class="field-label">Room ID</div>
+    <div class="input-row">
+      <input class="inp" id="roomIdInput" type="text" placeholder="Auto-filled from above" readonly />
+      <button class="btn-fetch" id="fetchDetailsBtn" onclick="fetchGoodyDetails()">Get Goody Bag Details</button>
+    </div>
+    <div id="detailsStatus"></div>
+
+    <div id="detailsBox" style="display:none;margin-top:14px">
+      <div class="detail-grid">
+        <div class="detail-box"><div class="detail-box-label">🎁 Total Coins</div><div class="detail-box-val" id="d-coins">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">🏆 Winners</div><div class="detail-box-val" id="d-winners">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">⏱ Countdown (min)</div><div class="detail-box-val" id="d-mins">—</div></div>
+        <div class="detail-box"><div class="detail-box-label">👥 Joined</div><div class="detail-box-val" id="d-joined">—</div></div>
+      </div>
+
+      <div class="countdown-bar">
+        <div>
+          <div class="countdown-label">Opens in:</div>
+          <div class="countdown-val" id="liveCountdown">—</div>
+        </div>
+        <div class="pulse-dot"></div>
+      </div>
+
+      <div id="methodSection" style="display:none">
+        <div class="card-title" style="margin-bottom:6px">Participate Method</div>
+        <div class="card-sub" style="margin-bottom:8px">Type this exact text in TikTok live chat to join</div>
+        <div class="method-box">
+          <div class="field-label">Text to Type:</div>
+          <div class="method-text" id="methodText">—</div>
+          <button class="btn-copy-char" style="margin-top:8px" onclick="copyText(document.getElementById('methodText').textContent)">⧉ Copy Exact Text</button>
+        </div>
+      </div>
+
+      <div id="charSection" style="display:none">
+        <div class="card-title" style="margin-bottom:3px">Character Analysis</div>
+        <div class="card-sub">Unicode breakdown — copy each character group</div>
+        <div style="margin-bottom:12px">
+          <div class="field-label">Original Text:</div>
+          <div class="result-row">
+            <div class="result-val" id="charOriginal" style="font-size:1.1rem;letter-spacing:2px">—</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('charOriginal').textContent)">⧉</button>
+          </div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:6px" id="charMeta"></div>
+        </div>
+        <div id="charGroups"></div>
+      </div>
+
+      <div>
+        <div class="card-title" style="margin-bottom:2px">Full Response Data</div>
+        <div class="card-sub" style="margin-bottom:6px">Complete API response from TikTok</div>
+        <div class="row-btns">
+          <button class="btn-sm" onclick="copyText(document.getElementById('jsonBlock').textContent)">⧉ Copy All</button>
+          <button class="btn-sm" onclick="toggleJson()">{} JSON</button>
+        </div>
+        <div class="json-block" id="jsonBlock">No data yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: CLAIM -->
+  <div class="card" id="section-claim" style="display:none">
+    <div class="card-title" style="color:var(--cyan)">Claim Goody Bag</div>
+    <div class="card-sub" id="claimSubtitle">Ready to claim!</div>
+    <button class="btn-claim" id="claimNowBtn" onclick="claimNow()">🎁 Claim Now</button>
+    <button class="btn-auto" id="autoClaimBtn" onclick="toggleAutoClaim()">⏰ Auto Claim (10s Before)</button>
+    <div id="claimStatus" style="margin-top:10px"></div>
+  </div>
+
+</main>
+
+<footer>TikTok Goody Bag Tool — Respect TikTok rate limits and terms of service</footer>
+
+<script>
+// ── STATE ──
+let roomId = '';
+let goodyRaw = null;
+let openAtTs = 0;
+let countdownInterval = null;
+let autoClaimOn = false;
+
+// ── SETTINGS ──
+function getApiUrl() {
+  return (localStorage.getItem('api_url') || 'https://tiktok-goody-backend-production.up.railway.app').replace(/\/$/, '');
+}
+function getCookies() {
+  return localStorage.getItem('tt_cookies') || '';
+}
+function toggleSettings() {
+  const s = document.getElementById('settingsPage');
+  const m = document.getElementById('mainPage');
+  const on = s.classList.toggle('show');
+  m.style.display = on ? 'none' : 'flex';
+  if (on) {
+    document.getElementById('cookiesInput').value = getCookies();
+    document.getElementById('apiUrlInput').value = getApiUrl();
+  }
+}
+function saveSettings() {
+  localStorage.setItem('tt_cookies', document.getElementById('cookiesInput').value.trim());
+  localStorage.setItem('api_url', document.getElementById('apiUrlInput').value.trim());
+  showNotif('Settings saved!');
+  toggleSettings();
+}
+
+// ── UTILS ──
+function showNotif(msg, color) {
+  const n = document.getElementById('notif');
+  n.textContent = msg; n.style.background = color || '#00f5d4';
+  n.classList.add('show'); setTimeout(() => n.classList.remove('show'), 2400);
+}
+function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotif('Copied!')); }
+function setStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.innerHTML = msg ? `<div clas .back-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .notif { position: fixed; bottom: 20px; right: 20px; background: var(--cyan); color: #000; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.84rem; z-index: 9999; transform: translateY(60px); opacity: 0; transition: all 0.3s; box-shadow: 0 4px 20px #00f5d450; pointer-events: none; }
+  .notif.show { transform: translateY(0); opacity: 1; }
+  .api-url-box { background: var(--card2); border: 1px solid var(--cyan); border-radius: 10px; padding: 10px 14px; font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--cyan); margin-bottom: 10px; word-break: break-all; }
+  footer { text-align: center; padding: 28px 20px; color: var(--muted); font-size: 0.75rem; line-height: 1.8; border-top: 1px solid var(--border); }
+  @media(max-width:480px){ .detail-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="notif" id="notif"></div>
+
+<header>
+  <div class="logo">TikTok<br><span>Goody</span> Bag</div>
+  <div class="header-right">
     <button class="btn-icon" onclick="toggleSettings()">⚙️</button>
   </div>
 </header>
